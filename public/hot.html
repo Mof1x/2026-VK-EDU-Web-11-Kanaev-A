@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AskMeNow - Hot Questions</title>
+  <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
+  <link rel="alternate icon" href="static/img/favicon.ico">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/custom.css">
+</head>
+<body>
+
+  <header class="py-3 border-bottom app-header">
+    <div class="container">
+      <div class="row align-items-center gy-3">
+        <div class="col-12 col-md-auto d-flex align-items-center justify-content-between">
+          <a href="index.html" class="navbar-brand-ask">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question-mark preview-icon"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            <span>AskMeNow</span>
+          </a>
+          <a href="ask.html" class="btn btn-ask-primary d-md-none">ASK!</a>
+        </div>
+
+        <div class="col-12 col-md d-flex justify-content-center">
+          <form class="search-input-wrap" action="index.html" method="get">
+            <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search preview-icon"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+            <label for="headerSearch" class="visually-hidden">Поиск</label>
+            <input type="search" class="form-control" id="headerSearch" name="q" placeholder="Поиск по вопросам..." aria-label="Search">
+          </form>
+        </div>
+
+        <div class="col-12 col-md-auto d-flex align-items-center justify-content-end gap-3">
+          <a href="ask.html" class="btn btn-ask-primary d-none d-md-inline-block">ASK!</a>
+          <div class="header-userblock userblock-unauth">
+            <a href="login.html" class="btn btn-outline-dark btn-sm fw-semibold">log in</a>
+            <a href="signup.html" class="btn btn-dark btn-sm fw-semibold">register</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-lg-8">
+          <div class="d-flex align-items-baseline gap-3 mb-4 border-bottom pb-2">
+            <a href="index.html" class="text-decoration-underline text-secondary fs-5">New Questions</a>
+            <h1 class="h3 fw-bold mb-0">Hot Questions</h1>
+          </div>
+
+          <article class="ask-card">
+            <div class="d-flex gap-3 ask-card-inner">
+              <div class="ask-card-left">
+                <img src="static/img/avatar2.svg" alt="Avatar" class="card-avatar">
+                <div class="vote-widget voted-up" title="Question Rating">
+                  <button type="button" class="vote-btn vote-btn-up" aria-label="Upvote">▲</button>
+                  <span class="vote-count">128</span>
+                  <button type="button" class="vote-btn vote-btn-down" aria-label="Downvote">▼</button>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h2 class="question-title">
+                  <a href="question.html">Оптимизация работы с базой данных при частых запросах</a>
+                </h2>
+                <p class="question-snippet">
+                  При росте количества записей в таблице время ответа заметно увеличивается. Какие индексы и настройки соединений лучше использовать для ускорения выборки?
+                </p>
+                <div class="question-meta">
+                  <a href="question.html">answer (2)</a>
+                  <div class="question-tags">
+                    <span>Tags:</span>
+                    <a href="tag.html?tag=sql" class="badge bg-light text-dark border">sql</a>
+                    <a href="tag.html?tag=backend" class="badge bg-light text-dark border">backend</a>
+                  </div>
+                  <span class="ms-auto text-muted small">Dmitry Kozlov &bull; 3 дня назад</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="ask-card">
+            <div class="d-flex gap-3 ask-card-inner">
+              <div class="ask-card-left">
+                <img src="static/img/avatar1.svg" alt="Avatar" class="card-avatar">
+                <div class="vote-widget voted-up" title="Question Rating">
+                  <button type="button" class="vote-btn vote-btn-up" aria-label="Upvote">▲</button>
+                  <span class="vote-count">94</span>
+                  <button type="button" class="vote-btn vote-btn-down" aria-label="Downvote">▼</button>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h2 class="question-title">
+                  <a href="question.html">Как настроить базовую маршрутизацию и отображение шаблонов?</a>
+                </h2>
+                <p class="question-snippet">
+                  Возникли сложности с правильной настройкой путей и передачей параметров в шаблон. Как лучше структурировать проект для удобной дальнейшей поддержки?
+                </p>
+                <div class="question-meta">
+                  <a href="question.html">answer (2)</a>
+                  <div class="question-tags">
+                    <span>Tags:</span>
+                    <a href="tag.html?tag=web" class="badge bg-light text-dark border">web</a>
+                    <a href="tag.html?tag=python" class="badge bg-light text-dark border">python</a>
+                  </div>
+                  <span class="ms-auto text-muted small">Ivan Ivanov &bull; 2 часа назад</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="ask-card">
+            <div class="d-flex gap-3 ask-card-inner">
+              <div class="ask-card-left">
+                <img src="static/img/avatar3.svg" alt="Avatar" class="card-avatar">
+                <div class="vote-widget voted-up" title="Question Rating">
+                  <button type="button" class="vote-btn vote-btn-up" aria-label="Upvote">▲</button>
+                  <span class="vote-count">67</span>
+                  <button type="button" class="vote-btn vote-btn-down" aria-label="Downvote">▼</button>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h2 class="question-title">
+                  <a href="question.html">Правильное подключение локальных статических файлов</a>
+                </h2>
+                <p class="question-snippet">
+                  Стили и скрипты должны подключаться локально без использования внешних CDN. Как корректно настроить раздачу статики в структуре проекта?
+                </p>
+                <div class="question-meta">
+                  <a href="question.html">answer (2)</a>
+                  <div class="question-tags">
+                    <span>Tags:</span>
+                    <a href="tag.html?tag=html" class="badge bg-light text-dark border">html</a>
+                    <a href="tag.html?tag=css" class="badge bg-light text-dark border">css</a>
+                  </div>
+                  <span class="ms-auto text-muted small">Anna Petrova &bull; 1 день назад</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <nav aria-label="Hot questions pagination" class="my-4">
+            <ul class="pagination ask-pagination justify-content-start">
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+              <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+              <li class="page-item"><a class="page-link" href="hot.html?page=2">2</a></li>
+              <li class="page-item"><a class="page-link" href="hot.html?page=3">3</a></li>
+              <li class="page-item disabled"><span class="page-link">...</span></li>
+              <li class="page-item"><a class="page-link" href="hot.html?page=15">15</a></li>
+              <li class="page-item"><a class="page-link" href="hot.html?page=2" aria-label="Next">&raquo;</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <aside class="col-12 col-lg-4">
+          <div class="sidebar-box">
+            <h2 class="sidebar-title">Popular Tags</h2>
+            <div class="tag-cloud">
+              <a href="tag.html?tag=web" class="tag-cloud-item tag-color-purple">web</a>
+              <a href="tag.html?tag=python" class="tag-cloud-item tag-color-red">python</a>
+              <a href="tag.html?tag=django" class="tag-cloud-item tag-color-green">django</a>
+              <a href="tag.html?tag=sql" class="tag-cloud-item tag-color-blue">sql</a>
+              <a href="tag.html?tag=javascript" class="tag-cloud-item tag-color-yellow">javascript</a>
+              <a href="tag.html?tag=html" class="tag-cloud-item tag-color-orange">html</a>
+              <a href="tag.html?tag=css" class="tag-cloud-item tag-color-purple">css</a>
+              <a href="tag.html?tag=bootstrap" class="tag-cloud-item tag-color-blue">bootstrap</a>
+              <a href="tag.html?tag=git" class="tag-cloud-item tag-color-muted">git</a>
+              <a href="tag.html?tag=backend" class="tag-cloud-item tag-color-green">backend</a>
+              <a href="tag.html?tag=frontend" class="tag-cloud-item tag-color-red">frontend</a>
+              <a href="tag.html?tag=linux" class="tag-cloud-item tag-color-muted">linux</a>
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h2 class="sidebar-title">Best Members</h2>
+            <ul class="best-members-list">
+              <li><a href="profile.html">Ivan Ivanov</a></li>
+              <li><a href="profile.html">Alexei Smirnov</a></li>
+              <li><a href="profile.html">Dmitry Kozlov</a></li>
+              <li><a href="profile.html">Anna Petrova</a></li>
+              <li><a href="profile.html">Sergei Popov</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-3 text-center text-muted">
+    <div class="container">
+      <p class="mb-1 fw-medium text-dark">AskMeNow &copy; 2026. VK Education Web Development Course.</p>
+      <small>Учебный проект по курсу веб-разработки.</small>
+    </div>
+  </footer>
+
+  <script src="static/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/main.js"></script>
+</body>
+</html>
