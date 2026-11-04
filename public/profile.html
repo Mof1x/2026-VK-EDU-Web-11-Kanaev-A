@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AskMeNow - Settings: Andrei Kanaev</title>
+  <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
+  <link rel="alternate icon" href="static/img/favicon.ico">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/custom.css">
+</head>
+<body>
+
+  <header class="py-3 border-bottom app-header">
+    <div class="container">
+      <div class="row align-items-center gy-3">
+        <div class="col-12 col-md-auto d-flex align-items-center justify-content-between">
+          <a href="index.html" class="navbar-brand-ask">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question-mark preview-icon"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            <span>AskMeNow</span>
+          </a>
+          <a href="ask.html" class="btn btn-ask-primary d-md-none">ASK!</a>
+        </div>
+
+        <div class="col-12 col-md d-flex justify-content-center">
+          <form class="search-input-wrap" action="index.html" method="get">
+            <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search preview-icon"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+            <label for="headerSearch" class="visually-hidden">Поиск</label>
+            <input type="search" class="form-control" id="headerSearch" name="q" placeholder="Поиск по вопросам..." aria-label="Search">
+          </form>
+        </div>
+
+        <div class="col-12 col-md-auto d-flex align-items-center justify-content-end gap-3">
+          <a href="ask.html" class="btn btn-ask-primary d-none d-md-inline-block">ASK!</a>
+          <div class="header-userblock userblock-auth">
+            <img src="static/img/avatar-user.svg" alt="Andrei Kanaev Avatar" class="user-avatar-sm">
+            <div class="user-info">
+              <a href="profile.html" class="user-name">Andrei Kanaev</a>
+              <div class="user-links">
+                <a href="profile.html">settings</a>
+                <span class="text-muted">|</span>
+                <a href="login.html">log out</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-lg-8">
+          <h1 class="h3 fw-bold mb-4">Settings: Andrei Kanaev</h1>
+
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Настройки профиля сохранены.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <form action="profile.html" method="post" enctype="multipart/form-data" class="form-card">
+            <div class="row mb-3 align-items-baseline">
+              <label for="profileLogin" class="col-sm-3 col-form-label form-label-bold">Login</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-ask" id="profileLogin" name="login" value="andrei_kanaev" required>
+                <div class="form-text text-muted">Уникальный логин пользователя для входа в систему.</div>
+              </div>
+            </div>
+
+            <div class="row mb-3 align-items-baseline">
+              <label for="profileEmail" class="col-sm-3 col-form-label form-label-bold">Email</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control form-control-ask" id="profileEmail" name="email" value="a.kanaev@mail.ru" required>
+                <div class="form-text text-muted">На этот email приходят уведомления о новых ответах на ваши вопросы.</div>
+              </div>
+            </div>
+
+            <div class="row mb-3 align-items-baseline">
+              <label for="profileNickName" class="col-sm-3 col-form-label form-label-bold">NickName</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-ask" id="profileNickName" name="nickname" value="Andrei Kanaev" required>
+              </div>
+            </div>
+
+            <div class="row mb-4 align-items-center">
+              <label for="profileAvatar" class="col-sm-3 col-form-label form-label-bold">Upload avatar</label>
+              <div class="col-sm-9">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="static/img/avatar-user.svg" alt="Current avatar" id="avatarPreview" class="avatar-preview-box mb-0">
+                  <div class="flex-grow-1">
+                    <input class="form-control form-control-ask" type="file" id="profileAvatar" name="avatar" accept="image/*">
+                    <div class="form-text text-muted">Выберите изображение для смены аватара.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-9 offset-sm-3">
+                <button type="submit" class="btn btn-ask-dark px-4 py-2">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <aside class="col-12 col-lg-4">
+          <div class="sidebar-box">
+            <h2 class="sidebar-title">Popular Tags</h2>
+            <div class="tag-cloud">
+              <a href="tag.html?tag=web" class="tag-cloud-item tag-color-purple">web</a>
+              <a href="tag.html?tag=python" class="tag-cloud-item tag-color-red">python</a>
+              <a href="tag.html?tag=django" class="tag-cloud-item tag-color-green">django</a>
+              <a href="tag.html?tag=sql" class="tag-cloud-item tag-color-blue">sql</a>
+              <a href="tag.html?tag=javascript" class="tag-cloud-item tag-color-yellow">javascript</a>
+              <a href="tag.html?tag=html" class="tag-cloud-item tag-color-orange">html</a>
+              <a href="tag.html?tag=css" class="tag-cloud-item tag-color-purple">css</a>
+              <a href="tag.html?tag=bootstrap" class="tag-cloud-item tag-color-blue">bootstrap</a>
+              <a href="tag.html?tag=git" class="tag-cloud-item tag-color-muted">git</a>
+              <a href="tag.html?tag=backend" class="tag-cloud-item tag-color-green">backend</a>
+              <a href="tag.html?tag=frontend" class="tag-cloud-item tag-color-red">frontend</a>
+              <a href="tag.html?tag=linux" class="tag-cloud-item tag-color-muted">linux</a>
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h2 class="sidebar-title">Best Members</h2>
+            <ul class="best-members-list">
+              <li><a href="profile.html">Ivan Ivanov</a></li>
+              <li><a href="profile.html">Alexei Smirnov</a></li>
+              <li><a href="profile.html">Dmitry Kozlov</a></li>
+              <li><a href="profile.html">Anna Petrova</a></li>
+              <li><a href="profile.html">Sergei Popov</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-3 text-center text-muted">
+    <div class="container">
+      <p class="mb-1 fw-medium text-dark">AskMeNow &copy; 2026. VK Education Web Development Course.</p>
+      <small>Учебный проект по курсу веб-разработки.</small>
+    </div>
+  </footer>
+
+  <script src="static/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/main.js"></script>
+</body>
+</html>
