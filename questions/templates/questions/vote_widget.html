@@ -1,0 +1,5 @@
+<div class="vote-widget{% if item.vote_state %} {{ item.vote_state }}{% endif %}">
+  <button type="button" class="vote-btn vote-btn-up" aria-label="Upvote">▲</button>
+  <span class="vote-count">{{ item.rating }}</span>
+  <button type="button" class="vote-btn vote-btn-down" aria-label="Downvote">▼</button>
+</div>

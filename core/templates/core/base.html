@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AskMeNow — {% block title %}{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'core/img/favicon.svg' %}">
+  <link rel="alternate icon" href="{% static 'core/img/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/custom.css' %}">
+</head>
+<body>
+
+  <header class="py-3 border-bottom app-header">
+    <div class="container">
+      <div class="row align-items-center gy-3">
+        <div class="col-12 col-md-auto d-flex align-items-center justify-content-between">
+          <a href="{% url 'questions:index' %}" class="navbar-brand-ask">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question-mark preview-icon"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            <span>AskMeNow</span>
+          </a>
+          <a href="{% url 'questions:ask' %}" class="btn btn-ask-primary d-md-none">ASK!</a>
+        </div>
+
+        <div class="col-12 col-md d-flex justify-content-center">
+          <form class="search-input-wrap" action="{% url 'questions:index' %}" method="get">
+            <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search preview-icon"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+            <label for="headerSearch" class="visually-hidden">Поиск</label>
+            <input type="search" class="form-control" id="headerSearch" name="q" placeholder="Поиск по вопросам..." aria-label="Search">
+          </form>
+        </div>
+
+        <div class="col-12 col-md-auto d-flex align-items-center justify-content-end gap-3">
+          <a href="{% url 'questions:ask' %}" class="btn btn-ask-primary d-none d-md-inline-block">ASK!</a>
+          {% if show_profile_menu %}
+            <div class="header-userblock userblock-auth">
+              <img src="{% static 'core/img/avatar-user.svg' %}" alt="Andrei Kanaev Avatar" class="user-avatar-sm">
+              <div class="user-info">
+                <a href="{% url 'core:profile' %}" class="user-name">Andrei Kanaev</a>
+                <div class="user-links">
+                  <a href="{% url 'core:profile' %}">settings</a>
+                  <span class="text-muted">|</span>
+                  <a href="{% url 'core:login' %}">log out</a>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="header-userblock userblock-unauth">
+              <a href="{% url 'core:login' %}" class="btn btn-outline-dark btn-sm fw-semibold">log in</a>
+              <a href="{% url 'core:signup' %}" class="btn btn-dark btn-sm fw-semibold">register</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-lg-8">
+          {% block content %}{% endblock %}
+        </div>
+
+        <aside class="col-12 col-lg-4">
+          <div class="sidebar-box">
+            <h2 class="sidebar-title">Popular Tags</h2>
+            <div class="tag-cloud">
+              <a href="{% url 'questions:tag' 'web' %}" class="tag-cloud-item tag-color-purple">web</a>
+              <a href="{% url 'questions:tag' 'python' %}" class="tag-cloud-item tag-color-red">python</a>
+              <a href="{% url 'questions:tag' 'django' %}" class="tag-cloud-item tag-color-green">django</a>
+              <a href="{% url 'questions:tag' 'sql' %}" class="tag-cloud-item tag-color-blue">sql</a>
+              <a href="{% url 'questions:tag' 'javascript' %}" class="tag-cloud-item tag-color-yellow">javascript</a>
+              <a href="{% url 'questions:tag' 'html' %}" class="tag-cloud-item tag-color-orange">html</a>
+              <a href="{% url 'questions:tag' 'css' %}" class="tag-cloud-item tag-color-purple">css</a>
+              <a href="{% url 'questions:tag' 'bootstrap' %}" class="tag-cloud-item tag-color-blue">bootstrap</a>
+              <a href="{% url 'questions:tag' 'git' %}" class="tag-cloud-item tag-color-muted">git</a>
+              <a href="{% url 'questions:tag' 'backend' %}" class="tag-cloud-item tag-color-green">backend</a>
+              <a href="{% url 'questions:tag' 'frontend' %}" class="tag-cloud-item tag-color-red">frontend</a>
+              <a href="{% url 'questions:tag' 'linux' %}" class="tag-cloud-item tag-color-muted">linux</a>
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h2 class="sidebar-title">Best Members</h2>
+            <ul class="best-members-list">
+              <li><a href="{% url 'core:profile' %}">Ivan Ivanov</a></li>
+              <li><a href="{% url 'core:profile' %}">Alexei Smirnov</a></li>
+              <li><a href="{% url 'core:profile' %}">Dmitry Kozlov</a></li>
+              <li><a href="{% url 'core:profile' %}">Anna Petrova</a></li>
+              <li><a href="{% url 'core:profile' %}">Sergei Popov</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-3 text-center text-muted">
+    <div class="container">
+      <p class="mb-1 fw-medium text-dark">AskMeNow &copy; 2026. VK Education Web Development Course.</p>
+      <small>Учебный проект по курсу веб-разработки.</small>
+    </div>
+  </footer>
+
+  <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>

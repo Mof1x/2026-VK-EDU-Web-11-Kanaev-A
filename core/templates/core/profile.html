@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Settings: Andrei Kanaev{% endblock %}
+
+{% block content %}
+<h1 class="h3 fw-bold mb-4">Settings: Andrei Kanaev</h1>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  Настройки профиля сохранены.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<form action="{% url 'core:profile' %}" method="post" enctype="multipart/form-data" class="form-card">
+  {% csrf_token %}
+  <div class="row mb-3 align-items-baseline">
+    <label for="profileLogin" class="col-sm-3 col-form-label form-label-bold">Login</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="profileLogin" name="login" value="andrei_kanaev" required>
+      <div class="form-text text-muted">Уникальный логин пользователя для входа в систему.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="profileEmail" class="col-sm-3 col-form-label form-label-bold">Email</label>
+    <div class="col-sm-9">
+      <input type="email" class="form-control form-control-ask" id="profileEmail" name="email" value="a.kanaev@mail.ru" required>
+      <div class="form-text text-muted">На этот email приходят уведомления о новых ответах на ваши вопросы.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="profileNickName" class="col-sm-3 col-form-label form-label-bold">NickName</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="profileNickName" name="nickname" value="Andrei Kanaev" required>
+    </div>
+  </div>
+
+  <div class="row mb-4 align-items-center">
+    <label for="profileAvatar" class="col-sm-3 col-form-label form-label-bold">Upload avatar</label>
+    <div class="col-sm-9">
+      <div class="d-flex align-items-center gap-3">
+        <img src="{% static 'core/img/avatar-user.svg' %}" alt="Current avatar" id="avatarPreview" class="avatar-preview-box mb-0">
+        <div class="flex-grow-1">
+          <input class="form-control form-control-ask" type="file" id="profileAvatar" name="avatar" accept="image/*">
+          <div class="form-text text-muted">Выберите изображение для смены аватара.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-9 offset-sm-3">
+      <button type="submit" class="btn btn-ask-dark px-4 py-2">Save</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

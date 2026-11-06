@@ -63,3 +63,6 @@ desktop.ini
 .env
 .env.local
 .env.*.local
+
+# macOS archive metadata
+__MACOSX/

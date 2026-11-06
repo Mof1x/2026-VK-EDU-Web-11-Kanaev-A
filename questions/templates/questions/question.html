@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block content %}
+{% include 'questions/question_card.html' with detail=True %}
+
+<hr class="my-4">
+
+<section id="answers" class="answers-section mb-4">
+  <h2 class="h4 fw-bold mb-3">Answers ({{ page.paginator.count }})</h2>
+
+  {% for answer in page %}
+    {% include 'questions/answer_card.html' %}
+  {% endfor %}
+
+  {% include 'questions/pagination.html' with anchor='#answers' %}
+</section>
+
+<hr class="my-4">
+
+<section class="answer-form-block mb-4">
+  <h3 class="h5 fw-bold mb-3">Ваш ответ</h3>
+  <form action="{% url 'questions:question' question.id %}" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="answerText" class="visually-hidden">Текст ответа</label>
+      <textarea class="form-control form-control-ask" id="answerText" name="answer" rows="5" placeholder="Введите текст вашего ответа..." required></textarea>
+      <div class="form-text text-muted">Пожалуйста, будьте вежливы и давайте развёрнутый ответ по существу вопроса.</div>
+    </div>
+    <button type="submit" class="btn btn-ask-dark px-4 py-2">Ответить</button>
+  </form>
+</section>
+{% endblock %}

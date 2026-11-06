@@ -1,63 +1,50 @@
-# 2026-VK-EDU-Web-11-Kanaev-A
+# AskMeNow
 
-Домашнее задание 1: статическая верстка сервиса вопросов и ответов (AskMeNow).
+Учебный сервис вопросов и ответов. В ДЗ 2 страницы из ДЗ 1 перенесены в шаблоны Django. Вопросы и ответы берутся из демонстрационных данных, формы служат для показа верстки.
 
-## Как открыть
+## Локальный запуск
 
-Верстка полностью статическая, подключение внешних CDN не требуется (вся статика лежит локально в репозитории).
+Понадобится Python 3.12 или новее. Выполняйте команды из корня проекта.
 
-Открыть можно двумя способами:
+### Windows (PowerShell)
 
-1. Напрямую открыть файл `public/index.html` в браузере (двойным кликом).
-2. Запустить локальный сервер через Python:
+Активация окружения не нужна: команды обращаются к Python внутри `.venv` напрямую.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py runserver
+```
+
+### Linux / macOS
+
 ```bash
-python -m http.server 8000
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python manage.py runserver
 ```
-И открыть в браузере: `http://localhost:8000/public/index.html`
 
-## Список страниц
+Откройте [localhost:8000](http://localhost:8000/). При необходимости можно скопировать `.env.example` в `.env` и изменить настройки. Для демонстрационных страниц миграции не требуются.
 
-Все сверстанные страницы находятся в папке `public/`:
+Остановка сервера: `Ctrl+C`. Для работы с `/admin/` сначала выполните миграции: `python manage.py migrate` (используйте Python из созданного окружения).
 
-- `index.html` — главная страница со списком вопросов, виджетами лайков и пагинацией
-- `question.html` — страница вопроса со списком ответов, отметкой правильного ответа и формой
-- `ask.html` — форма создания нового вопроса
-- `login.html` — форма входа с сообщением об ошибке
-- `signup.html` — форма регистрации с ошибкой валидации поля email
-- `profile.html` — страница настроек профиля (с юзерблоком авторизованного пользователя)
-- `hot.html` — популярные вопросы
-- `tag.html` — вопросы по выбранному тегу
-- `base.html` — базовый шаблон разметки
+## Запуск через Docker Compose
 
-## Структура проекта
+Нужен установленный и запущенный Docker Desktop (на Windows) или Docker Engine с Compose (на Linux).
 
-```text
-2026-VK-EDU-Web-11-Kanaev-A/
-├── .gitignore
-├── README.md
-└── public/
-    ├── base.html
-    ├── index.html
-    ├── question.html
-    ├── ask.html
-    ├── login.html
-    ├── signup.html
-    ├── profile.html
-    ├── hot.html
-    ├── tag.html
-    └── static/
-        ├── css/
-        │   ├── bootstrap.min.css
-        │   └── custom.css
-        ├── js/
-        │   ├── bootstrap.bundle.min.js
-        │   └── main.js
-        └── img/
-            ├── favicon.ico
-            ├── favicon.svg
-            ├── default-avatar.svg
-            ├── avatar-user.svg
-            ├── avatar1.svg
-            ├── avatar2.svg
-            └── avatar3.svg
+```bash
+docker compose up --build
 ```
+
+Сайт будет доступен по адресу [localhost:8000](http://localhost:8000/).
+
+## Страницы
+
+- `/` — новые вопросы
+- `/hot/` — популярные вопросы
+- `/tag/python/` — вопросы по тегу
+- `/question/35/` — вопрос и ответы
+- `/ask/` — форма создания вопроса
+- `/login/` — форма входа
+- `/signup/` — форма регистрации
+- `/profile/` — форма настроек профиля

@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="d-flex flex-wrap align-items-baseline gap-3 mb-4 border-bottom pb-2">
+  {% block list_heading %}{% endblock %}
+</div>
+
+{% for question in page %}
+  {% include 'questions/question_card.html' %}
+{% empty %}
+  <p class="text-muted">Вопросов пока нет.</p>
+{% endfor %}
+
+{% include 'questions/pagination.html' %}
+{% endblock %}
