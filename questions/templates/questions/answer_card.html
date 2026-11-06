@@ -1,0 +1,23 @@
+{% load static %}
+
+<article class="ask-card mb-3{% if answer.is_correct %} border-success{% endif %}">
+  <div class="d-flex gap-3 ask-card-inner">
+    <div class="ask-card-left">
+      <img src="{% static answer.avatar %}" alt="Avatar" class="card-avatar">
+      {% include 'questions/vote_widget.html' with item=answer only %}
+      <label class="correct-answer-toggle{% if answer.is_correct %} is-correct{% endif %}">
+        <input type="checkbox" class="correct-checkbox"{% if answer.is_correct %} checked{% endif %}>
+        <span>Correct!</span>
+      </label>
+    </div>
+    <div class="flex-grow-1">
+      <div class="answer-text mb-3">
+        <p class="mb-0">{{ answer.text }}</p>
+      </div>
+      <div class="d-flex align-items-center justify-content-between text-muted small pt-2 border-top">
+        <strong>{{ answer.author }}</strong>
+        <span>{{ answer.time }}</span>
+      </div>
+    </div>
+  </div>
+</article>

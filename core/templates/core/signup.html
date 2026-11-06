@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+<h1 class="h3 fw-bold mb-3">Registration</h1>
+
+<div class="ask-alert-danger" role="alert">
+  Пользователь с таким адресом уже зарегистрирован
+</div>
+
+<form action="{% url 'core:signup' %}" method="post" enctype="multipart/form-data" class="form-card">
+  {% csrf_token %}
+  <div class="row mb-3 align-items-baseline">
+    <label for="regLogin" class="col-sm-3 col-form-label form-label-bold">Login</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="regLogin" name="login" placeholder="ivan_ivanov" minlength="4" maxlength="20" required>
+      <div class="form-text text-muted">От 4 до 20 латинских букв, цифр или подчёркиваний.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="regEmail" class="col-sm-3 col-form-label form-label-bold">Email</label>
+    <div class="col-sm-9">
+      <input type="email" class="form-control form-control-ask is-invalid" id="regEmail" name="email" value="ivan.ivanov@mail.ru" required>
+      <div class="invalid-feedback d-block fw-semibold">
+        Вы ввели невалидный email (или данный адрес уже занят).
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="regNickName" class="col-sm-3 col-form-label form-label-bold">NickName</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="regNickName" name="nickname" placeholder="Ivan Ivanov" required>
+      <div class="form-text text-muted">Имя, которое будет отображаться рядом с вашими вопросами и ответами.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="regPassword" class="col-sm-3 col-form-label form-label-bold">Password</label>
+    <div class="col-sm-9">
+      <input type="password" class="form-control form-control-ask" id="regPassword" name="password" placeholder="********" minlength="8" required>
+      <div class="form-text text-muted">Минимум 8 символов.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="regRepeatPassword" class="col-sm-3 col-form-label form-label-bold">Repeat password</label>
+    <div class="col-sm-9">
+      <input type="password" class="form-control form-control-ask" id="regRepeatPassword" name="repeat_password" placeholder="********" required>
+    </div>
+  </div>
+
+  <div class="row mb-4 align-items-center">
+    <label for="regAvatar" class="col-sm-3 col-form-label form-label-bold">Upload avatar</label>
+    <div class="col-sm-9">
+      <div class="d-flex align-items-center gap-3">
+        <img src="{% static 'core/img/default-avatar.svg' %}" alt="Avatar preview" id="avatarPreview" class="avatar-preview-box mb-0">
+        <div class="flex-grow-1">
+          <input class="form-control form-control-ask" type="file" id="regAvatar" name="avatar" accept="image/*">
+          <div class="form-text text-muted">Поддерживаются форматы JPG, PNG, SVG до 2 МБ.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-9 offset-sm-3">
+      <button type="submit" class="btn btn-ask-dark px-4 py-2 mb-3">Register!</button>
+      <div>
+        <span>Уже зарегистрированы? </span>
+        <a href="{% url 'core:login' %}" class="text-primary text-decoration-underline">Войти</a>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
