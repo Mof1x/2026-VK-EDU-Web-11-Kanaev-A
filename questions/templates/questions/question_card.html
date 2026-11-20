@@ -3,7 +3,7 @@
 <article class="ask-card{% if detail %} mb-4{% endif %}">
   <div class="d-flex gap-3 ask-card-inner">
     <div class="ask-card-left">
-      <img src="{% static question.avatar %}" alt="Avatar" class="card-avatar">
+      <img src="{% static question.avatar %}" alt="Аватар автора" class="card-avatar">
       {% include 'questions/vote_widget.html' with item=question only %}
     </div>
     <div class="flex-grow-1">
@@ -18,10 +18,10 @@
       {% endif %}
       <div class="question-meta">
         {% if not detail %}
-          <a href="{% url 'questions:question' question.id %}#answers">answer ({{ question.answer_count }})</a>
+          <a href="{% url 'questions:question' question.id %}#answers">Ответы ({{ question.answer_count }})</a>
         {% endif %}
         <div class="question-tags">
-          <span>Tags:</span>
+          <span>Теги:</span>
           {% for question_tag in question.tags %}
             <a href="{% url 'questions:tag' question_tag %}" class="badge border {% if question_tag == tag %}bg-primary text-white{% else %}bg-light text-dark{% endif %}">{{ question_tag }}</a>
           {% endfor %}

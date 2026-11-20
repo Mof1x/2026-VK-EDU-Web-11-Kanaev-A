@@ -2,6 +2,20 @@
 
 Учебный сервис вопросов и ответов. В ДЗ 2 страницы из ДЗ 1 перенесены в шаблоны Django. Вопросы и ответы берутся из демонстрационных данных, формы служат для показа верстки.
 
+## Настройка перед запуском
+
+Скопируйте `.env.example` в `.env` (`Copy-Item .env.example .env` в PowerShell или `cp .env.example .env` в Linux/macOS).
+
+Сгенерируйте ключ командой ниже и вставьте результат после `SECRET_KEY=` в `.env`.
+
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(50))"
+```
+
+Если Python доступен как `python3`, используйте это имя. Если запускаете проект только через Docker, сгенерируйте ключ командой `docker run --rm python:3.14-slim python -c "import secrets; print(secrets.token_urlsafe(50))"`.
+
+Для локального запуска оставьте `DEBUG=True` и `ALLOWED_HOSTS=localhost,127.0.0.1`. Проект требует все три переменные. Для `DEBUG` допустимы `True` и `False`.
+
 ## Локальный запуск
 
 Понадобится Python 3.12 или новее. Выполняйте команды из корня проекта.
@@ -24,7 +38,7 @@ python3 -m venv .venv
 .venv/bin/python manage.py runserver
 ```
 
-Откройте [localhost:8000](http://localhost:8000/). При необходимости можно скопировать `.env.example` в `.env` и изменить настройки. Для демонстрационных страниц миграции не требуются.
+Откройте [localhost:8000](http://localhost:8000/). Для демонстрационных страниц миграции не требуются.
 
 Остановка сервера: `Ctrl+C`. Для работы с `/admin/` сначала выполните миграции: `python manage.py migrate` (используйте Python из созданного окружения).
 

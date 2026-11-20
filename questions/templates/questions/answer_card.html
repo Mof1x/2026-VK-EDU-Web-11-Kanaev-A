@@ -3,11 +3,11 @@
 <article class="ask-card mb-3{% if answer.is_correct %} border-success{% endif %}">
   <div class="d-flex gap-3 ask-card-inner">
     <div class="ask-card-left">
-      <img src="{% static answer.avatar %}" alt="Avatar" class="card-avatar">
+      <img src="{% static answer.avatar %}" alt="Аватар автора" class="card-avatar">
       {% include 'questions/vote_widget.html' with item=answer only %}
       <label class="correct-answer-toggle{% if answer.is_correct %} is-correct{% endif %}">
         <input type="checkbox" class="correct-checkbox"{% if answer.is_correct %} checked{% endif %}>
-        <span>Correct!</span>
+        <span>Верный ответ</span>
       </label>
     </div>
     <div class="flex-grow-1">

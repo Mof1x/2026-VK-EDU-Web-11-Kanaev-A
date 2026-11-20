@@ -12,34 +12,34 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-try:
-    from dotenv import load_dotenv
-    load_dotenv(BASE_DIR / '.env')
-except ImportError:
-    pass
+load_dotenv(BASE_DIR / '.env')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY',
-    'django-insecure-default-dev-key'
-)
+def required_env(name):
+    value = os.environ.get(name, '').strip()
+    if not value:
+        raise ImproperlyConfigured(f'Укажите {name} в окружении или файле .env.')
+    return value
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').strip().lower() in ('true', '1', 'yes')
+SECRET_KEY = required_env('SECRET_KEY')
 
-allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '*')
-if allowed_hosts_str:
-    ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_str.split(',') if h.strip()]
-    if 'testserver' not in ALLOWED_HOSTS:
-        ALLOWED_HOSTS.append('testserver')
-else:
-    ALLOWED_HOSTS = ['*']
+debug_value = required_env('DEBUG')
+if debug_value not in ('True', 'False'):
+    raise ImproperlyConfigured('DEBUG должен быть True или False.')
+DEBUG = debug_value == 'True'
+
+ALLOWED_HOSTS = [host.strip() for host in required_env('ALLOWED_HOSTS').split(',') if host.strip()]
+if not ALLOWED_HOSTS or '*' in ALLOWED_HOSTS:
+    raise ImproperlyConfigured('Укажите конкретные хосты в ALLOWED_HOSTS через запятую.')
 
 
 # Application definition
@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.sidebar',
             ],
         },
     },
