@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block content %}
+{% include 'questions/question_card.html' with detail=True viewer=request.user %}
+
+<hr class="my-4">
+
+<section id="answers" class="answers-section mb-4">
+  <h2 class="h4 fw-bold mb-3">Ответы ({{ page.paginator.count }})</h2>
+
+  {% for answer in page %}
+    {% include 'questions/answer_card.html' with answer=answer %}
+  {% empty %}
+    <p class="text-muted">Пока нет ни одного ответа к этому вопросу.</p>
+  {% endfor %}
+
+  {% include 'questions/pagination.html' with anchor='#answers' %}
+</section>
+<h2 class="h4 mt-4">Добавить ответ</h2>
+{% if request.user.is_authenticated %}
+  <form action="{{ request.get_full_path }}" method="post" class="form-card">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% include 'core/includes/form_field.html' with field=form.text only %}
+    <button type="submit" class="btn btn-ask-dark">Опубликовать ответ</button>
+  </form>
+{% else %}
+  <button type="button" class="btn btn-ask-dark" disabled title="Войдите, чтобы добавить ответ">Опубликовать ответ</button>
+  <a href="{% url 'core:login' %}?next={{ request.get_full_path|urlencode:'' }}" class="ms-2">Войти, чтобы ответить</a>
+{% endif %}
+{% endblock %}

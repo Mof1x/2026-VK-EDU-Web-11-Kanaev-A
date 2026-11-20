@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h1 class="h3 fw-bold mb-3">Вход</h1>
+<form action="{% url 'core:login' %}" method="post" class="form-card">
+  {% csrf_token %}
+  {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+  {{ form.non_field_errors }}
+  {% for field in form %}
+    {% include 'core/includes/form_field.html' with field=field only %}
+  {% endfor %}
+  <button type="submit" class="btn btn-ask-dark">Войти</button>
+  <a href="{% url 'core:signup' %}" class="ms-2">Создать аккаунт</a>
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+<article class="ask-card{% if detail %} mb-4{% endif %}">
+  <div class="d-flex gap-3 ask-card-inner">
+    <div class="ask-card-left">
+      {% include 'core/includes/user_avatar.html' with user=question.author css_class='card-avatar' only %}
+      {% url 'questions:question_vote' question.pk as question_vote_url %}
+      {% include 'questions/vote_widget.html' with item=question vote_url=question_vote_url viewer=viewer csrf_token=csrf_token only %}
+    </div>
+    <div class="flex-grow-1">
+      {% if detail %}
+        <h1 class="question-title fs-3 mb-2">{{ question.title }}</h1>
+        <p class="question-text mb-3">{{ question.text }}</p>
+      {% else %}
+        <h2 class="question-title">
+          <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
+        </h2>
+        <p class="question-snippet">{{ question.text }}</p>
+      {% endif %}
+      <div class="question-meta">
+        {% if not detail %}
+          <a href="{{ question.get_absolute_url }}#answers">Ответы ({{ question.answer_count }})</a>
+        {% endif %}
+        <div class="question-tags">
+          <span>Теги:</span>
+          {% for question_tag in question.tags.all %}
+            <a href="{{ question_tag.get_absolute_url }}" class="badge border {% if question_tag == tag %}bg-primary text-white{% else %}bg-light text-dark{% endif %}">{{ question_tag.name }}</a>
+          {% endfor %}
+        </div>
+        <span class="ms-auto text-muted small">{{ question.author.get_full_name|default:question.author.username }} &bull; {{ question.created_at|date:"d.m.Y H:i" }}</span>
+      </div>
+    </div>
+  </div>
+</article>

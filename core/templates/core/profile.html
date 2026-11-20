@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% block title %}Настройки профиля{% endblock %}
+{% block content %}
+<h1 class="h3 fw-bold mb-3">Настройки профиля</h1>
+{% for message in messages %}
+  <p class="alert alert-success" role="status">{{ message }}</p>
+{% endfor %}
+<form action="{% url 'core:profile' %}" method="post" enctype="multipart/form-data" class="form-card">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {% include 'core/includes/user_avatar.html' with user=request.user css_class='avatar-preview-box' image_id='avatarPreview' only %}
+  {% for field in form %}
+    {% include 'core/includes/form_field.html' with field=field only %}
+  {% endfor %}
+  <button type="submit" class="btn btn-ask-dark">Сохранить</button>
+</form>
+{% endblock %}
