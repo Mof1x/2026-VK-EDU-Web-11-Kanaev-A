@@ -48,21 +48,24 @@
           <h1 class="h3 fw-bold mb-3">Log In</h1>
 
           <div class="ask-alert-danger" role="alert">
-            Вы ввели неправильный логин или пароль
+            Не удалось войти. Проверьте данные в форме.
           </div>
 
           <form action="profile.html" method="post" class="form-card">
             <div class="row mb-3 align-items-baseline">
               <label for="userLogin" class="col-sm-3 col-form-label form-label-bold">Login</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="userLogin" name="login" placeholder="Введите ваш логин" required autofocus>
+                <input type="text" class="form-control form-control-ask is-invalid" id="userLogin" name="login" placeholder="Введите ваш логин" required autofocus maxlength="20" minlength="4" pattern="[A-Za-z0-9_]+" aria-invalid="true" aria-describedby="userLoginHelp userLoginError">
+                <div class="form-text text-muted" id="userLoginHelp">От 4 до 20 латинских букв, цифр или подчёркиваний.</div>
+                <div class="invalid-feedback" id="userLoginError">Введите логин.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="userPassword" class="col-sm-3 col-form-label form-label-bold">Password</label>
               <div class="col-sm-9">
-                <input type="password" class="form-control form-control-ask" id="userPassword" name="password" placeholder="********" required>
+                <input type="password" class="form-control form-control-ask" id="userPassword" name="password" placeholder="********" required maxlength="128" minlength="8" aria-describedby="userPasswordHelp">
+                <div class="form-text text-muted" id="userPasswordHelp">От 8 до 128 символов. Пароль чувствителен к регистру.</div>
               </div>
             </div>
 

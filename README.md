@@ -24,7 +24,8 @@ python -m http.server 8000
 - `ask.html` — форма создания нового вопроса
 - `login.html` — форма входа с сообщением об ошибке
 - `signup.html` — форма регистрации с ошибкой валидации поля email
-- `profile.html` — страница настроек профиля (с юзерблоком авторизованного пользователя)
+- [`profile.html`](public/profile.html) — настройки профиля после успешного сохранения
+- [`profile-error.html`](public/profile-error.html) — настройки профиля при ошибке сохранения из-за неверного email
 - `hot.html` — популярные вопросы
 - `tag.html` — вопросы по выбранному тегу
 - `base.html` — базовый шаблон разметки
@@ -43,6 +44,7 @@ python -m http.server 8000
     ├── login.html
     ├── signup.html
     ├── profile.html
+    ├── profile-error.html
     ├── hot.html
     ├── tag.html
     └── static/

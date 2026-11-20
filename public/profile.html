@@ -56,30 +56,31 @@
 
           <div class="alert alert-success alert-dismissible fade show" role="alert">
             Настройки профиля сохранены.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-theme="dark" data-bs-dismiss="alert" aria-label="Закрыть"></button>
           </div>
 
           <form action="profile.html" method="post" enctype="multipart/form-data" class="form-card">
             <div class="row mb-3 align-items-baseline">
               <label for="profileLogin" class="col-sm-3 col-form-label form-label-bold">Login</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="profileLogin" name="login" value="andrei_kanaev" required>
-                <div class="form-text text-muted">Уникальный логин пользователя для входа в систему.</div>
+                <input type="text" class="form-control form-control-ask" id="profileLogin" name="login" value="andrei_kanaev" required maxlength="20" minlength="4" pattern="[A-Za-z0-9_]+" aria-describedby="profileLoginHelp">
+                <div class="form-text text-muted" id="profileLoginHelp">От 4 до 20 латинских букв, цифр или подчёркиваний.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="profileEmail" class="col-sm-3 col-form-label form-label-bold">Email</label>
               <div class="col-sm-9">
-                <input type="email" class="form-control form-control-ask" id="profileEmail" name="email" value="a.kanaev@mail.ru" required>
-                <div class="form-text text-muted">На этот email приходят уведомления о новых ответах на ваши вопросы.</div>
+                <input type="email" class="form-control form-control-ask" id="profileEmail" name="email" value="a.kanaev@mail.ru" required maxlength="254" aria-describedby="profileEmailHelp">
+                <div class="form-text text-muted" id="profileEmailHelp">Адрес электронной почты — не более 254 символов.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="profileNickName" class="col-sm-3 col-form-label form-label-bold">NickName</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="profileNickName" name="nickname" value="Andrei Kanaev" required>
+                <input type="text" class="form-control form-control-ask" id="profileNickName" name="nickname" value="Andrei Kanaev" required maxlength="50" aria-describedby="profileNickNameHelp">
+                <div class="form-text text-muted" id="profileNickNameHelp">Отображаемое имя — не более 50 символов.</div>
               </div>
             </div>
 

@@ -48,48 +48,48 @@
           <h1 class="h3 fw-bold mb-3">Registration</h1>
 
           <div class="ask-alert-danger" role="alert">
-            Пользователь с таким адресом уже зарегистрирован
+            Не удалось зарегистрироваться. Проверьте данные в форме.
           </div>
 
           <form action="profile.html" method="post" enctype="multipart/form-data" class="form-card">
             <div class="row mb-3 align-items-baseline">
               <label for="regLogin" class="col-sm-3 col-form-label form-label-bold">Login</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="regLogin" name="login" placeholder="ivan_ivanov" minlength="4" maxlength="20" required>
-                <div class="form-text text-muted">От 4 до 20 латинских букв, цифр или подчёркиваний.</div>
+                <input type="text" class="form-control form-control-ask" id="regLogin" name="login" placeholder="ivan_ivanov" minlength="4" required maxlength="20" pattern="[A-Za-z0-9_]+" aria-describedby="regLoginHelp">
+                <div class="form-text text-muted" id="regLoginHelp">От 4 до 20 латинских букв, цифр или подчёркиваний.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="regEmail" class="col-sm-3 col-form-label form-label-bold">Email</label>
               <div class="col-sm-9">
-                <input type="email" class="form-control form-control-ask is-invalid" id="regEmail" name="email" value="ivan.ivanov@mail.ru" required>
-                <div class="invalid-feedback d-block fw-semibold">
-                  Вы ввели невалидный email (или данный адрес уже занят).
-                </div>
+                <input type="email" class="form-control form-control-ask is-invalid" id="regEmail" name="email" value="ivan.ivanov@mail.ru" required maxlength="254" aria-invalid="true" aria-describedby="regEmailHelp regEmailError">
+                <div class="form-text text-muted" id="regEmailHelp">Адрес электронной почты — не более 254 символов.</div>
+                <div class="invalid-feedback" id="regEmailError">Этот email уже используется.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="regNickName" class="col-sm-3 col-form-label form-label-bold">NickName</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="regNickName" name="nickname" placeholder="Ivan Ivanov" required>
-                <div class="form-text text-muted">Имя, которое будет отображаться рядом с вашими вопросами и ответами.</div>
+                <input type="text" class="form-control form-control-ask" id="regNickName" name="nickname" placeholder="Ivan Ivanov" required maxlength="50" aria-describedby="regNickNameHelp">
+                <div class="form-text text-muted" id="regNickNameHelp">Отображаемое имя — не более 50 символов.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="regPassword" class="col-sm-3 col-form-label form-label-bold">Password</label>
               <div class="col-sm-9">
-                <input type="password" class="form-control form-control-ask" id="regPassword" name="password" placeholder="********" minlength="8" required>
-                <div class="form-text text-muted">Минимум 8 символов.</div>
+                <input type="password" class="form-control form-control-ask" id="regPassword" name="password" placeholder="********" minlength="8" required maxlength="128" aria-describedby="regPasswordHelp">
+                <div class="form-text text-muted" id="regPasswordHelp">От 8 до 128 символов. Пароль чувствителен к регистру.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-baseline">
               <label for="regRepeatPassword" class="col-sm-3 col-form-label form-label-bold">Repeat password</label>
               <div class="col-sm-9">
-                <input type="password" class="form-control form-control-ask" id="regRepeatPassword" name="repeat_password" placeholder="********" required>
+                <input type="password" class="form-control form-control-ask" id="regRepeatPassword" name="repeat_password" placeholder="********" required maxlength="128" minlength="8" aria-describedby="regRepeatPasswordHelp">
+                <div class="form-text text-muted" id="regRepeatPasswordHelp">Повторите пароль: от 8 до 128 символов, с учётом регистра.</div>
               </div>
             </div>
 

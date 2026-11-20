@@ -47,28 +47,33 @@
         <div class="col-12 col-lg-8">
           <h1 class="h3 fw-bold mb-4">New Question</h1>
 
+          <div class="ask-alert-danger" role="alert">
+            Не удалось создать вопрос. Исправьте ошибки в полях формы.
+          </div>
+
           <form action="question.html" method="post" class="form-card">
             <div class="row mb-3 align-items-baseline">
               <label for="questionTitle" class="col-sm-3 col-form-label form-label-bold">Title</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="questionTitle" name="title" maxlength="120" placeholder="Как настроить базовую маршрутизацию и отображение шаблонов?" required>
-                <div class="form-text text-muted">Максимальная длина заголовка — 120 символов.</div>
+                <input type="text" class="form-control form-control-ask" id="questionTitle" name="title" placeholder="Как настроить базовую маршрутизацию и отображение шаблонов?" required maxlength="120" aria-describedby="questionTitleHelp">
+                <div class="form-text text-muted" id="questionTitleHelp">Максимальная длина заголовка — 120 символов.</div>
               </div>
             </div>
 
             <div class="row mb-3 align-items-start">
               <label for="questionBody" class="col-sm-3 col-form-label form-label-bold">Text</label>
               <div class="col-sm-9">
-                <textarea class="form-control form-control-ask" id="questionBody" name="text" rows="8" placeholder="Подробно опишите суть вашего вопроса и шаги для воспроизведения проблемы..." required></textarea>
-                <div class="form-text text-muted">Опишите подробно суть вашей проблемы и контекст ситуации.</div>
+                <textarea class="form-control form-control-ask" id="questionBody" name="text" rows="8" placeholder="Подробно опишите суть вашего вопроса и шаги для воспроизведения проблемы..." required maxlength="10000" aria-describedby="questionBodyHelp"></textarea>
+                <div class="form-text text-muted" id="questionBodyHelp">Опишите проблему и контекст. Не более 10 000 символов.</div>
               </div>
             </div>
 
             <div class="row mb-4 align-items-baseline">
               <label for="questionTags" class="col-sm-3 col-form-label form-label-bold">Tags</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control form-control-ask" id="questionTags" name="tags" placeholder="web, python, backend">
-                <div class="form-text text-muted">Введите через запятую не более 3 тегов.</div>
+                <input type="text" class="form-control form-control-ask is-invalid" id="questionTags" name="tags" value="web, python, django, backend" maxlength="100" aria-invalid="true" aria-describedby="questionTagsHelp questionTagsError">
+                <div class="form-text text-muted" id="questionTagsHelp">Введите через запятую не более 3 тегов; всё поле — до 100 символов.</div>
+                <div class="invalid-feedback" id="questionTagsError">Не более 3 тегов.</div>
               </div>
             </div>
 
