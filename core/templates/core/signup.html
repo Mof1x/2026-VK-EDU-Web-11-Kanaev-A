@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<h1 class="h3 fw-bold mb-3">Регистрация</h1>
+
+<div class="ask-alert-danger" role="alert">
+  Пользователь с таким адресом уже зарегистрирован
+</div>
+
+<form action="{% url 'core:signup' %}" method="post" enctype="multipart/form-data" class="form-card">
+  {% csrf_token %}
+  <div class="row mb-3 align-items-baseline">
+    <label for="regLogin" class="col-sm-3 col-form-label form-label-bold">Логин</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="regLogin" name="login" placeholder="ivan_ivanov" minlength="4" maxlength="20" required>
+      <div class="form-text text-muted">От 4 до 20 латинских букв, цифр или подчёркиваний.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="regEmail" class="col-sm-3 col-form-label form-label-bold">Электронная почта</label>
+    <div class="col-sm-9">
+      <input type="email" class="form-control form-control-ask is-invalid" id="regEmail" name="email" value="ivan.ivanov@mail.ru" required>
+      <div class="invalid-feedback d-block fw-semibold">
+        Вы ввели невалидный email (или данный адрес уже занят).
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="regNickName" class="col-sm-3 col-form-label form-label-bold">Имя на сайте</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="regNickName" name="nickname" placeholder="Ivan Ivanov" required>
+      <div class="form-text text-muted">Имя, которое будет отображаться рядом с вашими вопросами и ответами.</div>
+    </div>
+  </div>
+
+  {% include 'core/includes/password_field.html' with input_id='regPassword' input_name='password' label='Пароль' min_length=8 help_text='Минимум 8 символов.' only %}
+
+  {% include 'core/includes/password_field.html' with input_id='regRepeatPassword' input_name='repeat_password' label='Повторите пароль' only %}
+
+  {% include 'core/includes/avatar_upload.html' with input_id='regAvatar' avatar_path='core/img/default-avatar.svg' avatar_alt='Предпросмотр аватара' help_text='Поддерживаются форматы JPG, PNG, SVG до 2 МБ.' only %}
+
+  <div class="row">
+    <div class="col-sm-9 offset-sm-3">
+      <button type="submit" class="btn btn-ask-dark px-4 py-2 mb-3">Зарегистрироваться</button>
+      <div>
+        <span>Уже зарегистрированы? </span>
+        <a href="{% url 'core:login' %}" class="text-primary text-decoration-underline">Войти</a>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
