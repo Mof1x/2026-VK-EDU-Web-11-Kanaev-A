@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
@@ -68,19 +69,26 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-if DEBUG:
+DEBUG_TOOLBAR_ENABLED = DEBUG and 'test' not in sys.argv
+if DEBUG_TOOLBAR_ENABLED:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1', '::1']
+    DEBUG_TOOLBAR_CONFIG = {'SHOW_COLLAPSED': True}
     if IN_DOCKER:
         from .debug import docker_gateway
 
         gateway = docker_gateway()
         if gateway:
             INTERNAL_IPS.append(gateway)
+        DEBUG_TOOLBAR_CONFIG['SHOW_TOOLBAR_CALLBACK'] = 'application.debug.show_toolbar_in_docker'
 
 
 ROOT_URLCONF = 'application.urls'
+
+LOGIN_URL = 'core:login'
+LOGIN_REDIRECT_URL = 'questions:index'
+CSRF_FAILURE_VIEW = 'questions.ajax.csrf_failure'
 
 TEMPLATES = [
     {

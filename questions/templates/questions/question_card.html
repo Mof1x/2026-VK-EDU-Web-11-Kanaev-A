@@ -1,8 +1,9 @@
 <article class="ask-card{% if detail %} mb-4{% endif %}">
   <div class="d-flex gap-3 ask-card-inner">
     <div class="ask-card-left">
-      {% include 'questions/author_avatar.html' with author=question.author only %}
-      {% include 'questions/vote_widget.html' with item=question only %}
+      {% include 'core/includes/user_avatar.html' with user=question.author css_class='card-avatar' only %}
+      {% url 'questions:question_vote' question.pk as question_vote_url %}
+      {% include 'questions/vote_widget.html' with item=question vote_url=question_vote_url viewer=viewer csrf_token=csrf_token only %}
     </div>
     <div class="flex-grow-1">
       {% if detail %}

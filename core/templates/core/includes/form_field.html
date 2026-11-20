@@ -1,0 +1,8 @@
+<div class="row mb-3 align-items-baseline">
+  <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label form-label-bold">{{ field.label }}</label>
+  <div class="col-sm-9">
+    {{ field }}
+    {% if field.help_text %}<div class="form-text text-muted">{{ field.help_text }}</div>{% endif %}
+    {{ field.errors }}
+  </div>
+</div>

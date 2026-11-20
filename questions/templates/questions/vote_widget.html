@@ -1,3 +1,12 @@
-<div class="vote-widget">
-  <span class="vote-count" aria-label="Рейтинг">{{ item.rating }}</span>
-</div>
+<form class="vote-widget{% if item.viewer_vote == 1 %} voted-up{% elif item.viewer_vote == -1 %} voted-down{% endif %}"
+      method="post" action="{{ vote_url }}" data-vote{% if not viewer.is_authenticated %} title="Войдите, чтобы проголосовать"{% endif %}>
+  {% csrf_token %}
+  <button type="submit" class="vote-btn vote-btn-up" name="value" value="1"
+          aria-label="Лайк" aria-pressed="{% if item.viewer_vote == 1 %}true{% else %}false{% endif %}"
+          {% if not viewer.is_authenticated %}disabled title="Войдите, чтобы проголосовать"{% elif item.viewer_vote == 1 %}disabled title="Лайк уже поставлен"{% endif %}>▲</button>
+  <span class="vote-count" aria-live="polite">{{ item.rating }}</span>
+  <button type="submit" class="vote-btn vote-btn-down" name="value" value="-1"
+          aria-label="Дизлайк" aria-pressed="{% if item.viewer_vote == -1 %}true{% else %}false{% endif %}"
+          {% if not viewer.is_authenticated %}disabled title="Войдите, чтобы проголосовать"{% elif item.viewer_vote == -1 %}disabled title="Дизлайк уже поставлен"{% endif %}>▼</button>
+  <small class="text-danger" role="status" data-ajax-error hidden></small>
+</form>

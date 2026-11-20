@@ -282,6 +282,15 @@ footer {
   color: var(--ap-purple-primary);
 }
 
+.vote-btn:disabled {
+  cursor: not-allowed;
+}
+
+.vote-widget [data-ajax-error] {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .vote-count {
   font-weight: 700;
   font-size: 1.15rem;

@@ -35,7 +35,19 @@ def total_for(model, relation, aggregate):
     return Coalesce(models.Subquery(totals), 0)
 
 
+def viewer_vote_for(vote_model, relation, user):
+    if not user.is_authenticated:
+        return models.Value(0)
+    vote = vote_model.objects.filter(
+        **{relation: models.OuterRef('pk'), 'user': user},
+    ).values('value')
+    return Coalesce(models.Subquery(vote), 0, output_field=models.IntegerField())
+
+
 class QuestionQuerySet(models.QuerySet):
+    def with_viewer_vote(self, user):
+        return self.annotate(viewer_vote=viewer_vote_for(QuestionLike, 'question', user))
+
     def with_cards(self):
         return self.select_related('author__profile').prefetch_related('tags').annotate(
             rating=total_for(QuestionLike, 'question', models.Sum('value')),
@@ -79,6 +91,19 @@ class Question(models.Model):
 
 
 class AnswerQuerySet(models.QuerySet):
+    def with_viewer_vote(self, user):
+        return self.annotate(viewer_vote=viewer_vote_for(AnswerLike, 'answer', user))
+
+    def page_for(self, answer, page_size):
+        earlier = models.Q(created_at__lt=answer.created_at) | models.Q(
+            created_at=answer.created_at, pk__lt=answer.pk,
+        )
+        precedes = models.Q(is_correct=answer.is_correct) & earlier
+        if not answer.is_correct:
+            precedes |= models.Q(is_correct=True)
+        preceding_count = self.filter(question_id=answer.question_id).filter(precedes).count()
+        return preceding_count // page_size + 1
+
     def for_question(self, question):
         return self.filter(question=question).select_related('author__profile').annotate(
             rating=total_for(AnswerLike, 'answer', models.Sum('value')),
@@ -102,6 +127,12 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'ответ'
         verbose_name_plural = 'ответы'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['question'], condition=models.Q(is_correct=True),
+                name='one_correct_answer_per_question',
+            ),
+        ]
         indexes = [
             models.Index(fields=['question', '-is_correct', 'created_at', 'id'], name='answer_question_order_idx'),
         ]

@@ -6,6 +6,7 @@ app_name = 'core'
 
 urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
-    path('signup/', views.SignupView.as_view(), name='signup'),
-    path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('logout/', views.SiteLogoutView.as_view(), name='logout'),
+    path('signup/', views.signup, name='signup'),
+    path('profile/', views.profile, name='profile'),
 ]

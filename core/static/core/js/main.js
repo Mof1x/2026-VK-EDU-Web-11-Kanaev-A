@@ -1,84 +1,110 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.vote-widget').forEach((widget) => {
-    const btnUp = widget.querySelector('.vote-btn-up');
-    const btnDown = widget.querySelector('.vote-btn-down');
-    const countEl = widget.querySelector('.vote-count');
-    if (!btnUp || !btnDown || !countEl) return;
+  const avatarInput = document.querySelector('input[type="file"][name="avatar"]');
+  const avatarPreview = document.getElementById('avatarPreview');
+  let previewUrl;
+  if (avatarInput && avatarPreview) {
+    const original = avatarPreview.src;
+    avatarInput.addEventListener('change', () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      const file = avatarInput.files[0];
+      previewUrl = file ? URL.createObjectURL(file) : undefined;
+      avatarPreview.src = previewUrl || original;
+    });
+  }
 
-    if (!widget.dataset.baseCount) {
-      let initialCount = parseInt(countEl.textContent.trim(), 10) || 0;
-      if (widget.classList.contains('voted-up')) {
-        initialCount -= 1;
-      } else if (widget.classList.contains('voted-down')) {
-        initialCount += 1;
-      }
-      widget.dataset.baseCount = initialCount;
+  async function send(form, submitter) {
+    const data = new FormData(form, submitter);
+    const response = await fetch(form.action, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: data,
+    });
+    if (response.status === 401) {
+      const login = new URL(document.body.dataset.loginUrl, window.location.origin);
+      login.searchParams.set('next', location.pathname + location.search + location.hash);
+      window.location.assign(login);
+      return null;
     }
+    const result = await response.json().catch(() => null);
+    if (!response.ok || !result) {
+      throw new Error(result?.error || 'Не удалось сохранить изменение. Попробуйте ещё раз.');
+    }
+    return result;
+  }
 
-    const baseCount = parseInt(widget.dataset.baseCount, 10);
+  function showError(element, error) {
+    element.textContent = error.message || 'Проверьте соединение и попробуйте ещё раз.';
+    element.hidden = false;
+  }
 
-    const updateUI = () => {
-      if (widget.classList.contains('voted-up')) {
-        countEl.textContent = baseCount + 1;
-      } else if (widget.classList.contains('voted-down')) {
-        countEl.textContent = baseCount - 1;
-      } else {
-        countEl.textContent = baseCount;
-      }
-    };
-
-    btnUp.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (widget.classList.contains('voted-up')) {
-        widget.classList.remove('voted-up');
-      } else {
-        widget.classList.remove('voted-down');
-        widget.classList.add('voted-up');
-      }
-      updateUI();
+  function updateVote(form, buttons, result) {
+    form.querySelector('.vote-count').textContent = result.rating;
+    form.classList.toggle('voted-up', result.value === 1);
+    form.classList.toggle('voted-down', result.value === -1);
+    buttons.forEach((button) => {
+      const selected = Number(button.value) === result.value;
+      button.disabled = selected;
+      button.setAttribute('aria-pressed', String(selected));
+      button.title = selected ? 'Эта оценка уже поставлена' : '';
     });
+  }
 
-    btnDown.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (widget.classList.contains('voted-down')) {
-        widget.classList.remove('voted-down');
-      } else {
-        widget.classList.remove('voted-up');
-        widget.classList.add('voted-down');
+  document.querySelectorAll('[data-vote]').forEach((form) => {
+    const error = form.querySelector('[data-ajax-error]');
+    const buttons = Array.from(form.querySelectorAll('button[type="submit"]'));
+    let pending = false;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (pending || !event.submitter || event.submitter.disabled) return;
+      pending = true;
+      error.hidden = true;
+      const previous = buttons.map((button) => button.disabled);
+      try {
+        const response = send(form, event.submitter);
+        buttons.forEach((button) => { button.disabled = true; });
+        const result = await response;
+        if (result) updateVote(form, buttons, result);
+      } catch (failure) {
+        buttons.forEach((button, index) => { button.disabled = previous[index]; });
+        showError(error, failure);
+      } finally {
+        pending = false;
       }
-      updateUI();
     });
   });
 
-  document.querySelectorAll('.correct-answer-toggle').forEach((label) => {
-    const checkbox = label.querySelector('.correct-checkbox');
-    if (!checkbox) return;
-
-    const updateLabel = () => {
-      if (checkbox.checked) {
-        label.classList.add('is-correct');
-      } else {
-        label.classList.remove('is-correct');
-      }
-    };
-
-    checkbox.addEventListener('change', updateLabel);
-    updateLabel();
-  });
-
-  const avatarInputs = document.querySelectorAll('input[type="file"][accept*="image"], #avatarUpload');
-  avatarInputs.forEach((input) => {
-    input.addEventListener('change', (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-
-      const previewImg = document.querySelector('.avatar-preview-box, #avatarPreview');
-      if (previewImg) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          previewImg.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
+  const acceptForms = Array.from(document.querySelectorAll('[data-accept-answer]'));
+  const acceptButtons = acceptForms.map((form) => form.querySelector('button'));
+  let accepting = false;
+  acceptForms.forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (accepting || !event.submitter || event.submitter.disabled) return;
+      accepting = true;
+      acceptForms.forEach((candidate) => {
+        candidate.querySelector('[data-ajax-error]').hidden = true;
+      });
+      const previous = acceptButtons.map((button) => button.disabled);
+      try {
+        const response = send(form, event.submitter);
+        acceptButtons.forEach((button) => { button.disabled = true; });
+        const result = await response;
+        if (!result) return;
+        document.querySelectorAll('[data-answer-id]').forEach((card) => {
+          const selected = card.dataset.answerId === String(result.answer_id);
+          card.classList.toggle('border-success', selected);
+          card.querySelector('[data-correct-badge]').hidden = !selected;
+          const button = card.querySelector('[data-accept-answer] button');
+          if (button) {
+            button.disabled = selected;
+            button.textContent = selected ? 'Ответ уже выбран' : 'Отметить верным';
+          }
+        });
+      } catch (failure) {
+        acceptButtons.forEach((button, index) => { button.disabled = previous[index]; });
+        showError(form.querySelector('[data-ajax-error]'), failure);
+      } finally {
+        accepting = false;
       }
     });
   });

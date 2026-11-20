@@ -6,7 +6,7 @@
 </div>
 
 {% for question in page %}
-  {% include 'questions/question_card.html' with question=question tag=tag only %}
+  {% include 'questions/question_card.html' with question=question tag=tag viewer=request.user csrf_token=csrf_token only %}
 {% empty %}
   <p class="text-muted">Пока нет ни одного вопроса.</p>
 {% endfor %}

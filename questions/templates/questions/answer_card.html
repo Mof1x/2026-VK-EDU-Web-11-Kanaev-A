@@ -1,11 +1,10 @@
-<article class="ask-card mb-3{% if answer.is_correct %} border-success{% endif %}">
+<article id="answer-{{ answer.pk }}" class="ask-card mb-3{% if answer.is_correct %} border-success{% endif %}" data-answer-id="{{ answer.pk }}">
   <div class="d-flex gap-3 ask-card-inner">
     <div class="ask-card-left">
-      {% include 'questions/author_avatar.html' with author=answer.author only %}
-      {% include 'questions/vote_widget.html' with item=answer only %}
-      {% if answer.is_correct %}
-        <span class="badge text-bg-success">Верный ответ</span>
-      {% endif %}
+      {% include 'core/includes/user_avatar.html' with user=answer.author css_class='card-avatar' only %}
+      {% url 'questions:answer_vote' answer.pk as answer_vote_url %}
+      {% include 'questions/vote_widget.html' with item=answer vote_url=answer_vote_url viewer=request.user csrf_token=csrf_token only %}
+      <span class="badge text-bg-success" data-correct-badge{% if not answer.is_correct %} hidden{% endif %}>Верный ответ</span>
     </div>
     <div class="flex-grow-1">
       <div class="answer-text mb-3">
@@ -15,6 +14,16 @@
         <strong>{{ answer.author.get_full_name|default:answer.author.username }}</strong>
         <span>{{ answer.created_at|date:"d.m.Y H:i" }}</span>
       </div>
+      {% if can_accept_answer %}
+        <form action="{% url 'questions:accept_answer' question.pk %}" method="post" class="mt-2" data-accept-answer>
+          {% csrf_token %}
+          <input type="hidden" name="answer_id" value="{{ answer.pk }}">
+          <button type="submit" class="btn btn-outline-success btn-sm"{% if answer.is_correct %} disabled{% endif %}>
+            {% if answer.is_correct %}Ответ уже выбран{% else %}Отметить верным{% endif %}
+          </button>
+          <small class="text-danger" role="status" data-ajax-error hidden></small>
+        </form>
+      {% endif %}
     </div>
   </div>
 </article>
