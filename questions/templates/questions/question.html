@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block content %}
+{% include 'questions/question_card.html' with detail=True %}
+
+<hr class="my-4">
+
+<section id="answers" class="answers-section mb-4">
+  <h2 class="h4 fw-bold mb-3">Ответы ({{ page.paginator.count }})</h2>
+
+  {% for answer in page %}
+    {% include 'questions/answer_card.html' with answer=answer only %}
+  {% empty %}
+    <p class="text-muted">Пока нет ни одного ответа к этому вопросу.</p>
+  {% endfor %}
+
+  {% include 'questions/pagination.html' with anchor='#answers' %}
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Настройки профиля: Andrei Kanaev{% endblock %}
+
+{% block content %}
+<h1 class="h3 fw-bold mb-4">Настройки профиля: Andrei Kanaev</h1>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  Настройки профиля сохранены.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+</div>
+
+<form action="{% url 'core:profile' %}" method="post" enctype="multipart/form-data" class="form-card">
+  {% csrf_token %}
+  <div class="row mb-3 align-items-baseline">
+    <label for="profileLogin" class="col-sm-3 col-form-label form-label-bold">Логин</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="profileLogin" name="login" value="andrei_kanaev" required>
+      <div class="form-text text-muted">Уникальный логин пользователя для входа в систему.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="profileEmail" class="col-sm-3 col-form-label form-label-bold">Электронная почта</label>
+    <div class="col-sm-9">
+      <input type="email" class="form-control form-control-ask" id="profileEmail" name="email" value="a.kanaev@mail.ru" required>
+      <div class="form-text text-muted">На этот email приходят уведомления о новых ответах на ваши вопросы.</div>
+    </div>
+  </div>
+
+  <div class="row mb-3 align-items-baseline">
+    <label for="profileNickName" class="col-sm-3 col-form-label form-label-bold">Имя на сайте</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control form-control-ask" id="profileNickName" name="nickname" value="Andrei Kanaev" required>
+    </div>
+  </div>
+
+  {% include 'core/includes/avatar_upload.html' with input_id='profileAvatar' avatar_path='core/img/avatar-user.svg' avatar_alt='Текущий аватар' help_text='Выберите изображение для смены аватара.' only %}
+
+  <div class="row">
+    <div class="col-sm-9 offset-sm-3">
+      <button type="submit" class="btn btn-ask-dark px-4 py-2">Сохранить</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
