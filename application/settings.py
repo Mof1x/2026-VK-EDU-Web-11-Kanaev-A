@@ -18,7 +18,9 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR / '.env')
+IN_DOCKER = os.environ.get('DJANGO_IN_DOCKER') == '1'
+if not IN_DOCKER:
+    load_dotenv(BASE_DIR / '.env.local')
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +28,7 @@ load_dotenv(BASE_DIR / '.env')
 def required_env(name):
     value = os.environ.get(name, '').strip()
     if not value:
-        raise ImproperlyConfigured(f'Укажите {name} в окружении или файле .env.')
+        raise ImproperlyConfigured(f'Укажите {name} в окружении или в файле .env.local / .env.docker.')
     return value
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -66,16 +68,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    INTERNAL_IPS = ['127.0.0.1', '::1']
+    if IN_DOCKER:
+        from .debug import docker_gateway
+
+        gateway = docker_gateway()
+        if gateway:
+            INTERNAL_IPS.append(gateway)
+
+
 ROOT_URLCONF = 'application.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'templates',
-            BASE_DIR / 'core' / 'templates',
-            BASE_DIR / 'questions' / 'templates',
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,8 +106,12 @@ WSGI_APPLICATION = 'application.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': required_env('POSTGRES_DB'),
+        'USER': required_env('POSTGRES_USER'),
+        'PASSWORD': required_env('POSTGRES_PASSWORD'),
+        'HOST': required_env('DB_HOST'),
+        'PORT': required_env('DB_PORT'),
     }
 }
 

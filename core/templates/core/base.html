@@ -67,8 +67,10 @@
           <div class="sidebar-box">
             <h2 class="sidebar-title">Популярные теги</h2>
             <div class="tag-cloud">
-              {% for name, color_class in sidebar_tags %}
-                <a href="{% url 'questions:tag' name %}" class="tag-cloud-item {{ color_class }}">{{ name }}</a>
+              {% for popular_tag, color_class in sidebar_tags %}
+                <a href="{{ popular_tag.get_absolute_url }}" class="tag-cloud-item {{ color_class }}">{{ popular_tag.name }}</a>
+              {% empty %}
+                <span class="text-muted">Тегов пока нет.</span>
               {% endfor %}
             </div>
           </div>
@@ -76,8 +78,10 @@
           <div class="sidebar-box">
             <h2 class="sidebar-title">Лучшие участники</h2>
             <ul class="best-members-list">
-              {% for name in sidebar_members %}
-                <li><a href="{% url 'core:profile' %}">{{ name }}</a></li>
+              {% for profile in sidebar_members %}
+                <li>{{ profile.user.get_full_name|default:profile.user.username }}</li>
+              {% empty %}
+                <li class="text-muted">Участников пока нет.</li>
               {% endfor %}
             </ul>
           </div>

@@ -1,29 +1,16 @@
-SIDEBAR_TAGS = (
-    ('web', 'tag-color-purple'),
-    ('python', 'tag-color-red'),
-    ('django', 'tag-color-green'),
-    ('sql', 'tag-color-blue'),
-    ('javascript', 'tag-color-yellow'),
-    ('html', 'tag-color-orange'),
-    ('css', 'tag-color-purple'),
-    ('bootstrap', 'tag-color-blue'),
-    ('git', 'tag-color-muted'),
-    ('backend', 'tag-color-green'),
-    ('frontend', 'tag-color-red'),
-    ('linux', 'tag-color-muted'),
-)
+from questions.models import Tag
 
-SIDEBAR_MEMBERS = (
-    'Ivan Ivanov',
-    'Alexei Smirnov',
-    'Dmitry Kozlov',
-    'Anna Petrova',
-    'Sergei Popov',
-)
+from .models import Profile
+
+TAG_COLORS = ('purple', 'red', 'green', 'blue', 'yellow', 'orange', 'muted')
 
 
 def sidebar(request):
+    popular_tags = Tag.objects.popular()[:12]
     return {
-        'sidebar_tags': SIDEBAR_TAGS,
-        'sidebar_members': SIDEBAR_MEMBERS,
+        'sidebar_tags': [
+            (tag, f'tag-color-{TAG_COLORS[index % len(TAG_COLORS)]}')
+            for index, tag in enumerate(popular_tags)
+        ],
+        'sidebar_members': Profile.objects.top_contributors()[:5],
     }

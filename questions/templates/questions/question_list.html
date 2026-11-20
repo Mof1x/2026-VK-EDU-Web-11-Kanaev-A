@@ -6,9 +6,9 @@
 </div>
 
 {% for question in page %}
-  {% include 'questions/question_card.html' %}
+  {% include 'questions/question_card.html' with question=question tag=tag only %}
 {% empty %}
-  <p class="text-muted">Вопросов пока нет.</p>
+  <p class="text-muted">Пока нет ни одного вопроса.</p>
 {% endfor %}
 
 {% include 'questions/pagination.html' %}

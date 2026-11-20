@@ -1,9 +1,7 @@
-{% load static %}
-
 <article class="ask-card{% if detail %} mb-4{% endif %}">
   <div class="d-flex gap-3 ask-card-inner">
     <div class="ask-card-left">
-      <img src="{% static question.avatar %}" alt="Аватар автора" class="card-avatar">
+      {% include 'questions/author_avatar.html' with author=question.author only %}
       {% include 'questions/vote_widget.html' with item=question only %}
     </div>
     <div class="flex-grow-1">
@@ -12,21 +10,21 @@
         <p class="question-text mb-3">{{ question.text }}</p>
       {% else %}
         <h2 class="question-title">
-          <a href="{% url 'questions:question' question.id %}">{{ question.title }}</a>
+          <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
         </h2>
         <p class="question-snippet">{{ question.text }}</p>
       {% endif %}
       <div class="question-meta">
         {% if not detail %}
-          <a href="{% url 'questions:question' question.id %}#answers">Ответы ({{ question.answer_count }})</a>
+          <a href="{{ question.get_absolute_url }}#answers">Ответы ({{ question.answer_count }})</a>
         {% endif %}
         <div class="question-tags">
           <span>Теги:</span>
-          {% for question_tag in question.tags %}
-            <a href="{% url 'questions:tag' question_tag %}" class="badge border {% if question_tag == tag %}bg-primary text-white{% else %}bg-light text-dark{% endif %}">{{ question_tag }}</a>
+          {% for question_tag in question.tags.all %}
+            <a href="{{ question_tag.get_absolute_url }}" class="badge border {% if question_tag == tag %}bg-primary text-white{% else %}bg-light text-dark{% endif %}">{{ question_tag.name }}</a>
           {% endfor %}
         </div>
-        <span class="ms-auto text-muted small">{{ question.author }} &bull; {{ question.time }}</span>
+        <span class="ms-auto text-muted small">{{ question.author.get_full_name|default:question.author.username }} &bull; {{ question.created_at|date:"d.m.Y H:i" }}</span>
       </div>
     </div>
   </div>

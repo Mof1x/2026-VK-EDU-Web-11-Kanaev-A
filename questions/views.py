@@ -1,60 +1,34 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
-from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404, render
 
 from core.views import DemoFormView
 
-from .mock_data import ANSWERS, QUESTIONS
+from .models import Answer, Question, Tag
+from .pagination import paginated_context
 
 
-def paginate(objects_list, request, per_page=10):
-    paginator = Paginator(objects_list, per_page)
-    try:
-        return paginator.page(request.GET.get('page', 1))
-    except (PageNotAnInteger, EmptyPage):
-        return paginator.page(1)
+def render_question_list(request, template, questions, **context):
+    return render(request, template, {**paginated_context(questions, request), **context})
 
 
-class QuestionListView(TemplateView):
-    template_name = 'questions/index.html'
-
-    def get_questions(self):
-        return QUESTIONS
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page'] = paginate(self.get_questions(), self.request)
-        return context
+def newest_questions(request):
+    return render_question_list(request, 'questions/index.html', Question.objects.newest())
 
 
-class HotQuestionListView(QuestionListView):
-    template_name = 'questions/hot.html'
-
-    def get_questions(self):
-        return sorted(QUESTIONS, key=lambda question: question['rating'], reverse=True)
+def hot_questions(request):
+    return render_question_list(request, 'questions/hot.html', Question.objects.hottest())
 
 
-class TagQuestionListView(QuestionListView):
-    template_name = 'questions/tag.html'
+def tagged_questions(request, tag):
+    active_tag = get_object_or_404(Tag, slug=tag)
+    return render_question_list(
+        request, 'questions/tag.html', Question.objects.for_tag(active_tag), tag=active_tag,
+    )
 
-    def get_questions(self):
-        tag = self.kwargs['tag']
-        return [question for question in QUESTIONS if tag in question['tags']]
 
-
-class QuestionDetailView(DemoFormView):
-    template_name = 'questions/question.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        question_id = self.kwargs['question_id']
-        question = next((item for item in QUESTIONS if item['id'] == question_id), None)
-        if question is None:
-            raise Http404('Вопрос не найден')
-
-        context['question'] = question
-        context['page'] = paginate(ANSWERS, self.request, per_page=2)
-        return context
+def question_detail(request, question_id):
+    question = get_object_or_404(Question.objects.with_cards(), pk=question_id)
+    context = paginated_context(Answer.objects.for_question(question), request)
+    return render(request, 'questions/question.html', {'question': question, **context})
 
 
 class AskView(DemoFormView):

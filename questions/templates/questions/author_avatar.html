@@ -1,0 +1,8 @@
+{% load static %}
+{% with avatar=author.profile.avatar %}
+  {% if avatar %}
+    <img src="{{ avatar.url }}" alt="Аватар автора" class="card-avatar">
+  {% else %}
+    <img src="{% static 'core/img/default-avatar.svg' %}" alt="Аватар автора" class="card-avatar">
+  {% endif %}
+{% endwith %}
